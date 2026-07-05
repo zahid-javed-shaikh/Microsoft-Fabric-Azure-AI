@@ -1,0 +1,149 @@
+table fact_pickups
+	lineageTag: 7419da5e-6b5e-4fcc-93e8-0d7344dca650
+	sourceLineageTag: [gold].[fact_pickups]
+
+	column pickup_key
+		dataType: int64
+		formatString: 0
+		lineageTag: b13c5dd3-80b6-4403-b29d-88e442ce8a18
+		sourceLineageTag: pickup_key
+		summarizeBy: sum
+		sourceColumn: pickup_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column user_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 65c0e1ab-453e-4a54-a6e4-01373b393f00
+		sourceLineageTag: user_key
+		summarizeBy: none
+		sourceColumn: user_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: d2fe06e9-b161-42df-a6c7-4381cb102342
+		sourceLineageTag: created_date_key
+		summarizeBy: none
+		sourceColumn: created_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column pickup_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 3c0f7513-2b04-46ea-8cf2-cf67458d2832
+		sourceLineageTag: pickup_date_key
+		summarizeBy: sum
+		sourceColumn: pickup_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column pickup_request_number
+		dataType: string
+		lineageTag: 37db9aab-2019-473d-b432-28a4b9f6b4a4
+		sourceLineageTag: pickup_request_number
+		summarizeBy: none
+		sourceColumn: pickup_request_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column pickup_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 368e7d27-9022-409a-b31d-90127dd0da83
+		sourceLineageTag: pickup_date
+		summarizeBy: none
+		sourceColumn: pickup_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_partner_name
+		dataType: string
+		lineageTag: cb8abbdc-343e-4f1c-8378-3cedbc782103
+		sourceLineageTag: delivery_partner_name
+		summarizeBy: none
+		sourceColumn: delivery_partner_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column pickup_status
+		dataType: string
+		lineageTag: 09d9f7a1-a1fc-4b32-9172-927120b23686
+		sourceLineageTag: pickup_status
+		summarizeBy: none
+		sourceColumn: pickup_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_dockets
+		dataType: int64
+		formatString: 0
+		lineageTag: c0ae6b1a-f3e4-4bdb-b709-8d027c7d228d
+		sourceLineageTag: total_dockets
+		summarizeBy: sum
+		sourceColumn: total_dockets
+
+		annotation SummarizationSetBy = Automatic
+
+	column processed_dockets
+		dataType: int64
+		formatString: 0
+		lineageTag: d0678dd1-714e-429e-bf83-a6ddf2060737
+		sourceLineageTag: processed_dockets
+		summarizeBy: sum
+		sourceColumn: processed_dockets
+
+		annotation SummarizationSetBy = Automatic
+
+	column failed_dockets
+		dataType: int64
+		formatString: 0
+		lineageTag: 1f005b36-1f04-4617-accc-812e963faec8
+		sourceLineageTag: failed_dockets
+		summarizeBy: sum
+		sourceColumn: failed_dockets
+
+		annotation SummarizationSetBy = Automatic
+
+	column processing_success_pct
+		dataType: double
+		lineageTag: f74d79c8-0eb0-4cc6-b181-11a86fcca187
+		sourceLineageTag: processing_success_pct
+		summarizeBy: sum
+		sourceColumn: processing_success_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pending_dockets
+		dataType: int64
+		formatString: 0
+		lineageTag: e35c3f5b-706e-4969-8425-b6238c0653b3
+		sourceLineageTag: pending_dockets
+		summarizeBy: sum
+		sourceColumn: pending_dockets
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: de92868d-a41c-4927-b7bd-6b3b33097f11
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_pickups = entity
+		mode: directLake
+		source
+			entityName: fact_pickups
+			schemaName: gold
+			expressionSource: 'DirectLake - LH_Logibuddy'
+

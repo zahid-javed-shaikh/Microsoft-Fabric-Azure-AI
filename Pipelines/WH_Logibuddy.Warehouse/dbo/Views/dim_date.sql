@@ -1,0 +1,2 @@
+-- Auto Generated (Do not modify) 4F75009EEA956DF4BA0B126A9B49BD616CBE55A4F30E9AE3FDFC4D5D92C2F7B9
+CREATE VIEW [dbo].[dim_date] AS SELECT * FROM [LH_Logibuddy].[gold].[dim_date]

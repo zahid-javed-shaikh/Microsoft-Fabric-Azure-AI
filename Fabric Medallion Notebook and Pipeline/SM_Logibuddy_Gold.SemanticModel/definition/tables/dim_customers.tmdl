@@ -1,0 +1,169 @@
+table dim_customers
+	lineageTag: e148d3b9-b8be-4315-b486-eece1bff82b2
+	sourceLineageTag: [gold].[dim_customers]
+
+	column customer_key
+		dataType: int64
+		formatString: 0
+		lineageTag: f582514d-e5c9-42b7-8fc6-e41621de633c
+		sourceLineageTag: customer_key
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_name
+		dataType: string
+		lineageTag: bcbef650-216b-40c0-b5dd-ebaa95d18e7b
+		sourceLineageTag: customer_name
+		summarizeBy: none
+		sourceColumn: customer_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column email
+		dataType: string
+		lineageTag: 3321d8f6-5fd4-494a-a47c-9e570a529afb
+		sourceLineageTag: email
+		summarizeBy: none
+		sourceColumn: email
+
+		annotation SummarizationSetBy = Automatic
+
+	column phone
+		dataType: string
+		lineageTag: b81ecee1-a153-4131-abb4-e6e516876d7c
+		sourceLineageTag: phone
+		summarizeBy: none
+		sourceColumn: phone
+
+		annotation SummarizationSetBy = Automatic
+
+	column contact_no
+		dataType: string
+		lineageTag: b45bd49f-1310-4d50-b65b-9b6def013cdc
+		sourceLineageTag: contact_no
+		summarizeBy: none
+		sourceColumn: contact_no
+
+		annotation SummarizationSetBy = Automatic
+
+	column designation
+		dataType: string
+		lineageTag: 00067cc3-7a4e-4f4c-bea0-3c46011b661a
+		sourceLineageTag: designation
+		summarizeBy: none
+		sourceColumn: designation
+
+		annotation SummarizationSetBy = Automatic
+
+	column billing_cycle
+		dataType: string
+		lineageTag: 6114e5e1-025e-4a6f-848a-ed71abe6835e
+		sourceLineageTag: billing_cycle
+		summarizeBy: none
+		sourceColumn: billing_cycle
+
+		annotation SummarizationSetBy = Automatic
+
+	column credit_limit_amount
+		dataType: decimal
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: 6681d32e-1f98-4159-ad12-084c2f0a7f10
+		sourceLineageTag: credit_limit_amount
+		summarizeBy: sum
+		sourceColumn: credit_limit_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column status
+		dataType: string
+		lineageTag: 6811fb92-4173-4176-84bb-87a998dfbc2f
+		sourceLineageTag: status
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	column address_line_1
+		dataType: string
+		lineageTag: 82fa9f4c-878d-4b20-a78d-47f36ddbd56a
+		sourceLineageTag: address_line_1
+		summarizeBy: none
+		sourceColumn: address_line_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column address_line_2
+		dataType: string
+		lineageTag: 5a2120d2-5b95-4281-8859-aad58a0d25d2
+		sourceLineageTag: address_line_2
+		summarizeBy: none
+		sourceColumn: address_line_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column pincode
+		dataType: string
+		lineageTag: 6bfc1228-def5-46ea-b5f9-7bf461e4a9e0
+		sourceLineageTag: pincode
+		summarizeBy: none
+		sourceColumn: pincode
+
+		annotation SummarizationSetBy = Automatic
+
+	column city_name
+		dataType: string
+		lineageTag: 0f150a4a-2927-4d1f-82d5-d1b55446f5f9
+		sourceLineageTag: city_name
+		summarizeBy: none
+		sourceColumn: city_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column state_name
+		dataType: string
+		lineageTag: b65fce6b-95eb-4eda-afe2-9e7b20e10c33
+		sourceLineageTag: state_name
+		summarizeBy: none
+		sourceColumn: state_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column state_code
+		dataType: string
+		lineageTag: b8252c5e-9256-4ac4-acd5-ae7f147557af
+		sourceLineageTag: state_code
+		summarizeBy: none
+		sourceColumn: state_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_since
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8d4a10dd-896f-45b0-9e63-4475b7395b73
+		sourceLineageTag: customer_since
+		summarizeBy: none
+		sourceColumn: customer_since
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_segment
+		dataType: string
+		lineageTag: 6d391c50-6dee-47c2-9021-0d113df2dd8e
+		sourceLineageTag: customer_segment
+		summarizeBy: none
+		sourceColumn: customer_segment
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_customers = entity
+		mode: directLake
+		source
+			entityName: dim_customers
+			schemaName: gold
+			expressionSource: 'DirectLake - LH_Logibuddy'
+

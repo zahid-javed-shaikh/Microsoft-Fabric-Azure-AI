@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "KQLDatabase",
+    "displayName": "Real-Time-Intelligence",
+    "description": "Real-Time-Intelligence"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "97e98a87-e84a-a131-43b4-a38c9b4419eb"
+  }
+}

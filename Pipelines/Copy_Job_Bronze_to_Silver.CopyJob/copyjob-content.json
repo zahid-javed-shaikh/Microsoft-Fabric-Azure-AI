@@ -1,0 +1,76 @@
+{
+  "properties": {
+    "jobMode": "Batch",
+    "source": {
+      "type": "RestResource",
+      "connectionSettings": {
+        "type": "RestService",
+        "externalReferences": {
+          "connection": "c5cd8a03-ab53-4285-968e-f310686169bd"
+        }
+      },
+      "additionalSettings": {
+        "protocolSettings": {
+          "requestMethod": "GET",
+          "requestTimeout": "00:01:40",
+          "requestInterval": "00.00:00:00.010"
+        }
+      }
+    },
+    "destination": {
+      "type": "DataWarehouseTable",
+      "connectionSettings": {
+        "type": "DataWarehouse",
+        "typeProperties": {
+          "workspaceId": "2150bb83-47b4-4fde-a244-6be5b7e62908",
+          "artifactId": "65765b90-dfcd-40bd-9652-79680db0216c",
+          "endPoint": "6wxoapkvyxfezogid7hv2ln2ii-qo5vainui7pe7isenps3pzrjba.datawarehouse.fabric.microsoft.com"
+        }
+      }
+    },
+    "policy": {
+      "timeout": "0.12:00:00",
+      "retry": 0
+    }
+  },
+  "activities": [
+    {
+      "id": "f72167e4-42ff-47b6-b406-e65ef1a862de",
+      "properties": {
+        "source": {
+          "datasetSettings": {
+            "relativeUrl": "https://jsonplaceholder.typicode.com/posts"
+          },
+          "protocolSettings": {
+            "requestMethod": "GET",
+            "requestTimeout": "00:01:40",
+            "requestInterval": "00.00:00:00.010"
+          }
+        },
+        "destination": {
+          "tableOption": "autoCreate",
+          "writeBehavior": "Append",
+          "datasetSettings": {
+            "schema": "dbo",
+            "table": "JsonRestAPI"
+          }
+        },
+        "enableStaging": true,
+        "translator": {
+          "type": "TabularTranslator"
+        },
+        "typeConversionSettings": {
+          "typeConversion": {
+            "allowDataTruncation": true,
+            "treatBooleanAsNumber": false
+          }
+        },
+        "columnFlattenSettings": {
+          "expandArrayIntoMultipleRows": true,
+          "flattenNestedProperties": true,
+          "flattenColumnDelimiter": "."
+        }
+      }
+    }
+  ]
+}

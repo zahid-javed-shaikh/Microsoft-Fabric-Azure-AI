@@ -1,0 +1,123 @@
+table dim_warehouses
+	lineageTag: 33845bcf-1d21-4c9e-afe2-b3bd72bad81d
+	sourceLineageTag: [gold].[dim_warehouses]
+
+	column warehouse_key
+		dataType: int64
+		formatString: 0
+		lineageTag: db6ec956-3262-4442-8604-cfe13a187aa7
+		sourceLineageTag: warehouse_key
+		summarizeBy: sum
+		sourceColumn: warehouse_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column warehouse_name
+		dataType: string
+		lineageTag: f9696a22-af33-44d0-bfc8-b747cd2cea9b
+		sourceLineageTag: warehouse_name
+		summarizeBy: none
+		sourceColumn: warehouse_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column warehouse_code
+		dataType: string
+		lineageTag: 839c362d-9966-42cb-becd-5bec91402d94
+		sourceLineageTag: warehouse_code
+		summarizeBy: none
+		sourceColumn: warehouse_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column address_line_1
+		dataType: string
+		lineageTag: 02be9e12-738b-4153-9572-ef9822f5b4ee
+		sourceLineageTag: address_line_1
+		summarizeBy: none
+		sourceColumn: address_line_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column address_line_2
+		dataType: string
+		lineageTag: df5a054b-1283-441b-8391-b4b1cdab8646
+		sourceLineageTag: address_line_2
+		summarizeBy: none
+		sourceColumn: address_line_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column pincode
+		dataType: string
+		lineageTag: a18d8f0f-d649-4482-85a8-12ae97e0c163
+		sourceLineageTag: pincode
+		summarizeBy: none
+		sourceColumn: pincode
+
+		annotation SummarizationSetBy = Automatic
+
+	column city_name
+		dataType: string
+		lineageTag: c6146331-19d3-4515-ae29-d43099a2c7a7
+		sourceLineageTag: city_name
+		summarizeBy: none
+		sourceColumn: city_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column state_name
+		dataType: string
+		lineageTag: 6b7ca0a3-0ec3-4f84-a9d8-6ab424fba88e
+		sourceLineageTag: state_name
+		summarizeBy: none
+		sourceColumn: state_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column state_code
+		dataType: string
+		lineageTag: 2629a997-7a49-47bf-8eda-69163858e7d4
+		sourceLineageTag: state_code
+		summarizeBy: none
+		sourceColumn: state_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_active
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f6dd79f8-a306-46c4-aef1-b307935c59a8
+		sourceLineageTag: is_active
+		summarizeBy: none
+		sourceColumn: is_active
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_dlv
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 12bd9575-32d1-49ef-b03d-e55c6c5488ae
+		sourceLineageTag: is_dlv
+		summarizeBy: none
+		sourceColumn: is_dlv
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 659c8b73-d040-487e-8ff2-69e8f9d80969
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_warehouses = entity
+		mode: directLake
+		source
+			entityName: dim_warehouses
+			schemaName: gold
+			expressionSource: 'DirectLake - LH_Logibuddy'
+

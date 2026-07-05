@@ -1,0 +1,42 @@
+relationship c41c756d-edfa-21c5-4107-458044fc65e7
+	fromColumn: fact_dockets.created_date_key
+	toColumn: dim_date.date_key
+
+relationship ab87a3c0-306d-9aa8-b391-3b55b1807a7b
+	fromColumn: fact_dockets.customer_key
+	toColumn: dim_customers.customer_key
+
+relationship e21eee8f-7e48-f50e-e7e7-06fb9ac5ce12
+	fromColumn: fact_dockets.consignor_key
+	toColumn: dim_consignors.consignor_key
+
+relationship c0fc4cd7-d570-99a2-60c4-e1b7e6622a50
+	fromColumn: fact_dockets.user_key
+	toColumn: dim_users.user_key
+
+relationship 71166000-4541-d73e-29ce-4bd5e5681d17
+	fromColumn: fact_pickups.created_date_key
+	toColumn: dim_date.date_key
+
+relationship ca7f9f36-8a3b-fd9c-b278-421518669c5c
+	fromColumn: fact_pickups.user_key
+	toColumn: dim_users.user_key
+
+relationship e77049ec-65fb-f4f8-6541-811abcb3b03c
+	fromColumn: agg_dockets_daily.created_date_key
+	toColumn: dim_date.date_key
+
+relationship 7ce655c5-5558-101e-411c-67fe1f58722d
+	fromColumn: agg_customer_summary.customer_key
+	toColumn: dim_customers.customer_key
+
+relationship b7a1747a-2740-3b96-795f-5102fd075266
+	isActive: false
+	fromColumn: fact_dockets.invoice_date_key
+	toColumn: dim_date.date_key
+
+relationship 00992874-76de-81d9-f382-6aeadb312dcc
+	isActive: false
+	fromColumn: fact_dockets.edd_date_key
+	toColumn: dim_date.date_key
+

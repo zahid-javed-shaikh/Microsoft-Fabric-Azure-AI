@@ -1,0 +1,89 @@
+table dim_Customer
+	lineageTag: 36233a14-db6a-4fa6-8bc7-c77358f915d8
+	sourceLineageTag: [dbo].[dim_Customer]
+
+	column CustomerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: b37ec6ad-4082-4638-8c32-e608179100ea
+		sourceLineageTag: CustomerKey
+		summarizeBy: count
+		sourceColumn: CustomerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerID
+		dataType: int64
+		formatString: 0
+		lineageTag: 07e15c2e-49c1-4bca-9a8e-1db88ea0ebc7
+		sourceLineageTag: CustomerID
+		summarizeBy: count
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerName
+		dataType: string
+		lineageTag: 444a32cd-e098-4add-a2c0-b7cbc7495cf3
+		sourceLineageTag: CustomerName
+		summarizeBy: none
+		sourceColumn: CustomerName
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 8cfe4122-de00-4e35-a37c-f1ec0ce0cba5
+		sourceLineageTag: City
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column EffectiveFrom
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9c59e5ca-d9a8-454c-8530-98c0ae400786
+		sourceLineageTag: EffectiveFrom
+		summarizeBy: none
+		sourceColumn: EffectiveFrom
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column EffectiveTo
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 5acab4d0-1d16-47a6-afa9-619e8232bac5
+		sourceLineageTag: EffectiveTo
+		summarizeBy: none
+		sourceColumn: EffectiveTo
+
+		changedProperty = DataType
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column IsCurrent
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6fb489f4-159b-419f-806d-1c9b061da54f
+		sourceLineageTag: IsCurrent
+		summarizeBy: none
+		sourceColumn: IsCurrent
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_Customer = entity
+		mode: directLake
+		source
+			entityName: dim_Customer
+			schemaName: dbo
+			expressionSource: 'DirectLake - WH_Warehouse'
+

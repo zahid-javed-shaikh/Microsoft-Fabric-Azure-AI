@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "PL_Logibuddy_Master"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "da30c23b-c85d-873b-4da0-c884da61bd54"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "RestAPI_JSON",
+    "description": "Sample pipeline to retrieve data from REST API Call and land it inside Warehouse"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "7417ae7c-b7a4-b0ac-4a67-63694386e6f4"
+  }
+}

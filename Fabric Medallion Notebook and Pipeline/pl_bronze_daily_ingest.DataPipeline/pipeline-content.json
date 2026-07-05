@@ -1,0 +1,52 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "380606f8-7a07-8fdd-49b7-061d322df748",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "nb_bronze_daily_ingest_to_LH",
+        "description": "This fires dailt at 5 AM IST to pull data from RDBMS MYsql DB and store in Lakehouse under Bronze Worksapce",
+        "dependsOn": []
+      },
+      {
+        "type": "MicrosoftTeams",
+        "typeProperties": {
+          "content": "<p>The pipeline located in Workspace @{pipeline().DataFactory} bearing pipeline ID @{pipeline().Pipeline} has failed, Please review and check the error</p>",
+          "teamId": "8d0e6375-b243-4115-9841-436800c21028",
+          "channelId": "19:c-ack8qTLRen_B6q3meNlpQBOVx68QXJLkHgv8ZIbyI1@thread.tacv2",
+          "operationType": "SendMessageInChannel",
+          "subject": "Daily Bronze Ingest from MySql Pipeline Status"
+        },
+        "externalReferences": {
+          "connection": "eff93c71-3ea3-461e-842d-f101a7d8769f"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "On_Failure_send_Notification",
+        "dependsOn": [
+          {
+            "activity": "nb_bronze_daily_ingest_to_LH",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

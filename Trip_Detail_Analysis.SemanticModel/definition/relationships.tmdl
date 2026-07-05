@@ -1,0 +1,8 @@
+relationship ca9c80d3-662e-99d5-9b59-d2d044fc89cc
+	fromColumn: Trip.DateID
+	toColumn: Date.DateID
+
+relationship 596eba2b-3075-afa1-d6e2-8acece773e2b
+	fromColumn: Trip.DropoffGeographyID
+	toColumn: Geography.GeographyID
+

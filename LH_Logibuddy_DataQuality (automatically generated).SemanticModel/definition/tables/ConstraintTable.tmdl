@@ -1,0 +1,247 @@
+table ConstraintTable
+
+	measure 'Total Violations (Last 7 Days Only)' =
+			SUMX (
+				VALUES ( sys_dq_metrics[MLVID] ),
+				VAR CurrentMLV = sys_dq_metrics[MLVID]
+			
+				-- Last FR time in last 7 days
+				VAR LastFRTime =
+					CALCULATE (
+						MAX ( sys_dq_metrics[RefreshTimestamp] ),
+						FILTER (
+							sys_dq_metrics,
+							sys_dq_metrics[MLVID] = CurrentMLV
+								&& sys_dq_metrics[RefreshPolicy] = "FullRefresh"
+								&& sys_dq_metrics[RefreshDate] > TODAY() - 7
+						)
+					)
+			
+				-- Single filter condition:
+				-- If FR exists -> require timestamp >= FR.
+				-- If FR missing -> just take IRs in window.
+				VAR Violations =
+					CALCULATE (
+						SUM ( ConstraintTable[ViolationCount] ),
+						FILTER (
+							ConstraintTable,
+							ConstraintTable[MLVID] = CurrentMLV
+								&& (
+									(NOT ISBLANK ( LastFRTime ) && ConstraintTable[RefreshTimestamp] >= LastFRTime)
+									|| (ISBLANK ( LastFRTime )
+											&& ConstraintTable[RefreshDate] > TODAY() - 7
+										)
+			
+								)
+						)
+					)
+			
+				RETURN COALESCE ( Violations, 0 )
+			)
+		formatString: 0
+
+	measure 'MLV Rank Per Day' = ```
+			RANKX (
+				FILTER (
+					ALL ( ConstraintTable ),
+					ConstraintTable[RefreshDate] = MAX ( ConstraintTable[RefreshDate] )
+				),
+				SUMX (
+					VALUES ( ConstraintTable[MLVID] ),
+					VAR CurrentMLV   = ConstraintTable[MLVID]
+					VAR CurrentDate  = MAX ( ConstraintTable[RefreshDate] )
+			
+					-- Last FR for this MLV on the current date
+					VAR LastFRTime =
+						CALCULATE (
+							MAX ( sys_dq_metrics[RefreshTimestamp] ),
+							FILTER (
+								sys_dq_metrics,
+								sys_dq_metrics[MLVID] = CurrentMLV &&
+								sys_dq_metrics[RefreshPolicy] = "FullRefresh" &&
+								sys_dq_metrics[RefreshDate] = CurrentDate
+							)
+						)
+			
+					-- Violations (conditional on FR presence)
+					VAR Violations =
+						CALCULATE (
+							SUM ( ConstraintTable[ViolationCount] ),
+							FILTER (
+								ConstraintTable,
+								ConstraintTable[MLVID] = CurrentMLV &&
+								ConstraintTable[RefreshDate] = CurrentDate &&
+								(
+									ISBLANK(LastFRTime) || ConstraintTable[RefreshTimestamp] >= LastFRTime
+								)
+							)
+						)
+			
+					RETURN COALESCE ( Violations, 0 )
+				),
+				,
+				DESC,
+				DENSE
+			)
+			
+			```
+		formatString: 0
+
+	measure TotalViolationsPerConstraint_Last7Days =
+			SUMX (
+				VALUES ( ConstraintTable[ConstraintName] ),
+				VAR CurrentConstraint = ConstraintTable[ConstraintName]
+			
+				-- Last FR in the last 7 days (if any)
+				VAR LastFRTime =
+					CALCULATE (
+						MAX ( ConstraintTable[RefreshTimestamp] ),
+						FILTER (
+							ConstraintTable,
+							ConstraintTable[ConstraintName] = CurrentConstraint &&
+							ConstraintTable[RefreshPolicy] = "FullRefresh" &&
+							ConstraintTable[RefreshDate] > TODAY() - 7
+						)
+					)
+			
+				-- Unified violations logic
+				-- If FR exists -> FR + IR since FR
+				-- If no FR -> all IRs in last 7 days
+				VAR Violations =
+					CALCULATE (
+						SUM ( ConstraintTable[ViolationCount] ),
+						FILTER (
+							ALL ( ConstraintTable ),
+							ConstraintTable[ConstraintName] = CurrentConstraint &&
+							(
+								-- Case 1: FR exists -> FR + IR after FR
+								( NOT ISBLANK ( LastFRTime ) &&
+								  ConstraintTable[RefreshTimestamp] >= LastFRTime )
+								||
+								-- Case 2: No FR -> all IRs
+								( ISBLANK ( LastFRTime )
+									&& ConstraintTable[RefreshDate] > TODAY() - 7
+								)
+							)
+						)
+					)
+			
+				RETURN COALESCE ( Violations, 0 )
+			)
+		formatString: 0
+
+	measure 'Selected SchemaName' =
+			IF(
+				HASONEVALUE(ConstraintTable[SchemaName]),
+				VALUES(ConstraintTable[SchemaName]),
+				"All"
+			)
+		formatString: 0
+
+	measure 'Selected MLVName' =
+			IF(
+				HASONEVALUE(ConstraintTable[MLVName]),
+				VALUES(ConstraintTable[MLVName]),
+				"All"
+			)
+		formatString: 0
+
+	column MLVID
+		dataType: string
+		sourceProviderType: varchar(8000)
+		summarizeBy: none
+		sourceColumn: MLVID
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefreshDate
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: varchar(8000)
+		summarizeBy: none
+		sourceColumn: RefreshDate
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column RefreshTimestamp
+		dataType: string
+		sourceProviderType: varchar(8000)
+		summarizeBy: none
+		sourceColumn: RefreshTimestamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefreshPolicy
+		dataType: string
+		sourceProviderType: varchar(8000)
+		summarizeBy: none
+		sourceColumn: RefreshPolicy
+
+		annotation SummarizationSetBy = Automatic
+
+	column ConstraintName
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(4000)
+		summarizeBy: none
+		sourceColumn: ConstraintName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ViolationCount
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		summarizeBy: sum
+		sourceColumn: ViolationCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column Namespace
+		dataType: string
+		sourceProviderType: varchar(8000)
+		summarizeBy: none
+		sourceColumn: Namespace
+
+		annotation SummarizationSetBy = Automatic
+
+	column SchemaName
+		dataType: string
+		sourceProviderType: nvarchar(4000)
+		summarizeBy: none
+		sourceColumn: SchemaName
+
+		annotation SummarizationSetBy = Automatic
+
+	column MLVName
+		dataType: string
+		sourceProviderType: varchar(4000)
+		summarizeBy: none
+		sourceColumn: MLVName
+
+		annotation SummarizationSetBy = Automatic
+
+	column FullMLVName
+		dataType: string
+		sourceProviderType: nvarchar(8000)
+		summarizeBy: none
+		sourceColumn: FullMLVName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ConstraintTable = m
+		mode: directQuery
+		source =
+				let
+				    Source = Sql.Database("6wxoapkvyxfezogid7hv2ln2ii-qo5vainui7pe7isenps3pzrjba.datawarehouse.fabric.microsoft.com", "LH_Logibuddy", [Query="SELECT #(lf)    dq.MLVID, #(lf)    dq.RefreshDate, #(lf)    dq.RefreshTimestamp, #(lf)    dq.RefreshPolicy, #(lf)    j.[key] AS ConstraintName, #(lf)    SUM(TRY_CAST(j.[value] AS INT)) AS ViolationCount, #(lf)    dq.Namespace, #(lf)    PARSENAME(dq.Namespace, 1) AS SchemaName, #(lf)    dq.MLVName, #(lf)    PARSENAME(dq.Namespace, 1) + '.' + dq.MLVName AS FullMLVName #(lf) FROM sys_dq_metrics dq #(lf) CROSS APPLY OPENJSON(dq.ViolationsPerConstraint) AS j #(lf) WHERE dq.RefreshPolicy IN ('FullRefresh','IncrementalRefresh') #(lf)   AND dq.RefreshTimestamp >= COALESCE ( #(lf)         (SELECT MAX(sub.RefreshTimestamp) #(lf)         FROM sys_dq_metrics sub #(lf)         WHERE sub.MLVID = dq.MLVID #(lf)           AND sub.RefreshPolicy = 'FullRefresh' #(lf)           AND sub.RefreshDate = dq.RefreshDate), #(lf)        (SELECT MIN(sub.RefreshTimestamp) #(lf)         FROM sys_dq_metrics sub #(lf)         WHERE sub.MLVID = dq.MLVID #(lf)           AND sub.RefreshPolicy = 'IncrementalRefresh' #(lf)           AND sub.RefreshDate = dq.RefreshDate) #(lf)    ) #(lf) GROUP BY #(lf)    dq.MLVID, #(lf)    dq.RefreshDate, #(lf)    dq.RefreshTimestamp, #(lf)    dq.RefreshPolicy, #(lf)    j.[key], #(lf)    dq.Namespace, #(lf)    dq.MLVName"])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

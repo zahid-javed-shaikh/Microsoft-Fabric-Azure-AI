@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "SM_Logibuddy_Gold"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "89806fcb-6aa8-b51a-46fd-8951d9d01ad5"
+  }
+}

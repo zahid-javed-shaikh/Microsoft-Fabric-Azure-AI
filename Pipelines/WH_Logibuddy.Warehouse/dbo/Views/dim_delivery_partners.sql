@@ -1,0 +1,2 @@
+-- Auto Generated (Do not modify) EAACC316A5CF5F292F496DA2ACD8D31393CFFF5C06C2E3FBD6E94DAF7B609179
+CREATE VIEW [dbo].[dim_delivery_partners] AS SELECT * FROM [LH_Logibuddy].[gold].[dim_delivery_partners]

@@ -1,0 +1,67 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "Get_Daily_Fuel_Prices",
+  "queryGroups": [
+    {
+      "id": "3933ee1f-0740-461c-903e-be93a1dd8a2f",
+      "name": "Transform file from dailyfuelprice"
+    },
+    {
+      "id": "8092ca0c-750e-43a5-b383-8f6e1c878e98",
+      "name": "Helper queries",
+      "parentId": "3933ee1f-0740-461c-903e-be93a1dd8a2f"
+    }
+  ],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "dailyfuelprice": {
+      "queryId": "723a8693-16c6-4abf-bb83-9aa7c4f57a4b",
+      "queryName": "dailyfuelprice"
+    },
+    "Sample file": {
+      "queryId": "c1a51e69-1e12-4478-b5da-8e78f8b959b5",
+      "queryName": "Sample file",
+      "queryGroupId": "8092ca0c-750e-43a5-b383-8f6e1c878e98",
+      "loadEnabled": false
+    },
+    "Parameter": {
+      "queryId": "e1901c74-34b5-4c13-be83-bde803f015c4",
+      "queryName": "Parameter",
+      "queryGroupId": "8092ca0c-750e-43a5-b383-8f6e1c878e98",
+      "loadEnabled": false
+    },
+    "Transform Sample file": {
+      "queryId": "9d86f775-f6be-4d02-9d69-a24430b034ef",
+      "queryName": "Transform Sample file",
+      "queryGroupId": "3933ee1f-0740-461c-903e-be93a1dd8a2f",
+      "loadEnabled": false
+    },
+    "Transform file": {
+      "queryId": "cc6a40c5-9804-4088-ada2-160b8594a47e",
+      "queryName": "Transform file",
+      "queryGroupId": "8092ca0c-750e-43a5-b383-8f6e1c878e98",
+      "loadEnabled": false
+    },
+    "dailyfuelprice_DataDestination": {
+      "queryId": "7bd65914-6848-42a8-afa4-ad76e0622eb2",
+      "queryName": "dailyfuelprice_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "https://dubaipulserawdata.blob.core.windows.net/",
+      "kind": "AzureBlobs",
+      "connectionId": "{\"ClusterId\":\"b4c5c4a9-6027-4d4b-9753-a2cc4e6f6283\",\"DatasourceId\":\"170f48cd-2aa5-42ec-939c-377c1c2141e5\"}"
+    },
+    {
+      "path": "Warehouse",
+      "kind": "Warehouse",
+      "connectionId": "{\"ClusterId\":\"b4c5c4a9-6027-4d4b-9753-a2cc4e6f6283\",\"DatasourceId\":\"d3b59743-4b58-4bd5-9b72-74fd458df100\"}"
+    }
+  ]
+}
