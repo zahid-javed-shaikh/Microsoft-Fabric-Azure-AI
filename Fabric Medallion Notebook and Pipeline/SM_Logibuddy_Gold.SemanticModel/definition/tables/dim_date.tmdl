@@ -1,0 +1,175 @@
+table dim_date
+	lineageTag: 686d8d76-1dd8-47f2-b639-a1affae88662
+	sourceLineageTag: [gold].[dim_date]
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 53983bce-e4a0-4036-a599-0f85dd1e54a2
+		sourceLineageTag: date_key
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column full_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2abaee73-002a-4c40-812e-d29e913fe5ba
+		sourceLineageTag: full_date
+		summarizeBy: none
+		sourceColumn: full_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_month
+		dataType: int64
+		formatString: 0
+		lineageTag: 8209895f-c7c9-439c-8ac8-981be3c1a4db
+		sourceLineageTag: day_of_month
+		summarizeBy: sum
+		sourceColumn: day_of_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_number
+		dataType: int64
+		formatString: 0
+		lineageTag: a98e13c3-3019-4ba6-ae65-c77487eae19f
+		sourceLineageTag: month_number
+		summarizeBy: sum
+		sourceColumn: month_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name
+		dataType: string
+		lineageTag: b2a45daa-3312-4c3e-afe5-fb5d2f5fcabe
+		sourceLineageTag: month_name
+		summarizeBy: none
+		sourceColumn: month_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_short
+		dataType: string
+		lineageTag: 4cb85662-86cc-4c77-ae97-8fddac76fb7c
+		sourceLineageTag: month_short
+		summarizeBy: none
+		sourceColumn: month_short
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter_number
+		dataType: int64
+		formatString: 0
+		lineageTag: 5b89e3c4-b1be-452b-a845-56d761908e72
+		sourceLineageTag: quarter_number
+		summarizeBy: sum
+		sourceColumn: quarter_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter_label
+		dataType: string
+		lineageTag: 9c709dfe-264d-43e1-9a6e-256ae8c6b5cf
+		sourceLineageTag: quarter_label
+		summarizeBy: none
+		sourceColumn: quarter_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: b6e714c2-4c22-4179-bc56-e3d3eb55b431
+		sourceLineageTag: year
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter_year
+		dataType: string
+		lineageTag: fa465a82-f6ef-48ef-9160-8996003f232a
+		sourceLineageTag: quarter_year
+		summarizeBy: none
+		sourceColumn: quarter_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_week
+		dataType: int64
+		formatString: 0
+		lineageTag: a730f3c1-98a8-442d-a516-60ffaa94dc6c
+		sourceLineageTag: day_of_week
+		summarizeBy: sum
+		sourceColumn: day_of_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_name
+		dataType: string
+		lineageTag: 126d5e50-ebab-473c-9e92-0e9f31d09cdc
+		sourceLineageTag: day_name
+		summarizeBy: none
+		sourceColumn: day_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_short
+		dataType: string
+		lineageTag: 141bae7d-1634-469c-9719-f852114e67d3
+		sourceLineageTag: day_short
+		summarizeBy: none
+		sourceColumn: day_short
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_weekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c9887e12-2710-42fc-a529-ee0bbdcec82b
+		sourceLineageTag: is_weekend
+		summarizeBy: none
+		sourceColumn: is_weekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_weekday
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 668b14ad-4e80-4fa5-aac9-f3d94c9208eb
+		sourceLineageTag: is_weekday
+		summarizeBy: none
+		sourceColumn: is_weekday
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_from_today
+		dataType: int64
+		formatString: 0
+		lineageTag: 26f6a004-d2d9-40e9-9066-6cbdc06e90b0
+		sourceLineageTag: days_from_today
+		summarizeBy: sum
+		sourceColumn: days_from_today
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_past_or_today
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 3b24295d-830a-4b0f-bbb4-20602b744625
+		sourceLineageTag: is_past_or_today
+		summarizeBy: none
+		sourceColumn: is_past_or_today
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_date = entity
+		mode: directLake
+		source
+			entityName: dim_date
+			schemaName: gold
+			expressionSource: 'DirectLake - LH_Logibuddy'
+

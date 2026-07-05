@@ -1,0 +1,181 @@
+table agg_customer_summary
+	lineageTag: 9417c926-d4eb-477d-962a-fecc5a997c3d
+	sourceLineageTag: [gold].[agg_customer_summary]
+
+	column customer_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 67bc4e3d-bcd3-490d-bebb-99e0fe5f520b
+		sourceLineageTag: customer_key
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_name
+		dataType: string
+		lineageTag: 01cafd43-5c42-4567-9555-08cf27a38d84
+		sourceLineageTag: customer_name
+		summarizeBy: none
+		sourceColumn: customer_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_segment
+		dataType: string
+		lineageTag: 51ba1857-4853-4997-9885-8c35ca1d6b2f
+		sourceLineageTag: customer_segment
+		summarizeBy: none
+		sourceColumn: customer_segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column city_name
+		dataType: string
+		lineageTag: 02a097ed-9716-418c-a6c9-95f235517020
+		sourceLineageTag: city_name
+		summarizeBy: none
+		sourceColumn: city_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column state_name
+		dataType: string
+		lineageTag: 0a122b21-0b60-4cec-b5d6-92e217a3bf45
+		sourceLineageTag: state_name
+		summarizeBy: none
+		sourceColumn: state_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column billing_cycle
+		dataType: string
+		lineageTag: 9cfdbc00-c6d9-4d5f-a913-cfeb05a56231
+		sourceLineageTag: billing_cycle
+		summarizeBy: none
+		sourceColumn: billing_cycle
+
+		annotation SummarizationSetBy = Automatic
+
+	column credit_limit_amount
+		dataType: decimal
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: a267999b-13ea-4c77-9c3e-07f5c23192c0
+		sourceLineageTag: credit_limit_amount
+		summarizeBy: sum
+		sourceColumn: credit_limit_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column total_dockets
+		dataType: int64
+		formatString: 0
+		lineageTag: a937b3ac-7e26-446d-8e62-e08e2a7d8a89
+		sourceLineageTag: total_dockets
+		summarizeBy: sum
+		sourceColumn: total_dockets
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_orders
+		dataType: int64
+		formatString: 0
+		lineageTag: 4c316094-f6a7-43ce-9de1-74229571936f
+		sourceLineageTag: total_orders
+		summarizeBy: sum
+		sourceColumn: total_orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column lifetime_collectable_value
+		dataType: double
+		lineageTag: b6002a66-86e7-4f64-aebe-c5f07c54d9da
+		sourceLineageTag: lifetime_collectable_value
+		summarizeBy: sum
+		sourceColumn: lifetime_collectable_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column lifetime_order_value
+		dataType: double
+		lineageTag: a943a0d8-66aa-4a2b-aab6-8d776ef80fbe
+		sourceLineageTag: lifetime_order_value
+		summarizeBy: sum
+		sourceColumn: lifetime_order_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_order_value
+		dataType: double
+		lineageTag: 67f673b7-bf49-4b0d-8820-f5e397395474
+		sourceLineageTag: avg_order_value
+		summarizeBy: sum
+		sourceColumn: avg_order_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_weight_shipped_kg
+		dataType: double
+		lineageTag: 7e41a39d-706b-4406-9d8c-57d785582cce
+		sourceLineageTag: total_weight_shipped_kg
+		summarizeBy: sum
+		sourceColumn: total_weight_shipped_kg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column first_order_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 0f1db4bc-37f9-437b-bef8-5b5fd01700de
+		sourceLineageTag: first_order_date
+		summarizeBy: none
+		sourceColumn: first_order_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_order_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 88c4ed06-3852-4aa7-81b9-f10c11d33dea
+		sourceLineageTag: last_order_date
+		summarizeBy: none
+		sourceColumn: last_order_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_since_last_order
+		dataType: int64
+		formatString: 0
+		lineageTag: 6f5772b9-3a5b-40b3-b860-6fd2f28d8fec
+		sourceLineageTag: days_since_last_order
+		summarizeBy: sum
+		sourceColumn: days_since_last_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_recency_status
+		dataType: string
+		lineageTag: aa558c59-4987-4625-84a8-6eb3c1fa32b6
+		sourceLineageTag: customer_recency_status
+		summarizeBy: none
+		sourceColumn: customer_recency_status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition agg_customer_summary = entity
+		mode: directLake
+		source
+			entityName: agg_customer_summary
+			schemaName: gold
+			expressionSource: 'DirectLake - LH_Logibuddy'
+

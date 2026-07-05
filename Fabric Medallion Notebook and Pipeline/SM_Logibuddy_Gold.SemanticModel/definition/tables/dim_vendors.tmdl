@@ -1,0 +1,95 @@
+table dim_vendors
+	lineageTag: 71da0dba-5b2c-4b81-aafb-b43f774529a3
+	sourceLineageTag: [gold].[dim_vendors]
+
+	column vendor_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 8788a63b-944b-4783-aaca-bf081e11b879
+		sourceLineageTag: vendor_key
+		summarizeBy: sum
+		sourceColumn: vendor_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column vendor_name
+		dataType: string
+		lineageTag: 2c8a93b6-c94d-4a0a-95d4-def12104450e
+		sourceLineageTag: vendor_name
+		summarizeBy: none
+		sourceColumn: vendor_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column email
+		dataType: string
+		lineageTag: 6030a155-1b06-404a-92b0-81ec3ca1ce1b
+		sourceLineageTag: email
+		summarizeBy: none
+		sourceColumn: email
+
+		annotation SummarizationSetBy = Automatic
+
+	column phone
+		dataType: string
+		lineageTag: 90581e1b-b3c8-45c8-804d-18c60e4dcbda
+		sourceLineageTag: phone
+		summarizeBy: none
+		sourceColumn: phone
+
+		annotation SummarizationSetBy = Automatic
+
+	column address
+		dataType: string
+		lineageTag: 207c460b-30f3-421e-b1c7-bce62c8e01ba
+		sourceLineageTag: address
+		summarizeBy: none
+		sourceColumn: address
+
+		annotation SummarizationSetBy = Automatic
+
+	column company_name
+		dataType: string
+		lineageTag: 9d1189c9-3d5c-409e-9983-ba9671e0608a
+		sourceLineageTag: company_name
+		summarizeBy: none
+		sourceColumn: company_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column tax_id
+		dataType: string
+		lineageTag: d856a4b7-7e6d-4d19-b822-fcebd6185d54
+		sourceLineageTag: tax_id
+		summarizeBy: none
+		sourceColumn: tax_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_active
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d51b532f-41b5-40a2-aa6c-230278d28409
+		sourceLineageTag: is_active
+		summarizeBy: none
+		sourceColumn: is_active
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 77c6e2e7-761e-4955-9d4a-6b3de30834a2
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_vendors = entity
+		mode: directLake
+		source
+			entityName: dim_vendors
+			schemaName: gold
+			expressionSource: 'DirectLake - LH_Logibuddy'
+

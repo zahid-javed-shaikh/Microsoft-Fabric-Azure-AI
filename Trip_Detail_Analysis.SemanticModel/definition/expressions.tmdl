@@ -1,0 +1,11 @@
+expression 'DirectLake - AI Workloads' =
+		let
+		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/2150bb83-47b4-4fde-a244-6be5b7e62908/65765b90-dfcd-40bd-9652-79680db0216c", [HierarchicalNavigation=true])
+		in
+		    Source
+	lineageTag: a1fcb194-f739-4750-9b36-b05940c7a3ae
+
+	annotation PBI_IncludeFutureArtifacts = False
+
+	annotation PBI_RemovedChildren = [{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dbo].[JsonRestAPI]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dbo].[HackneyLicense]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dbo].[Medallion]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dbo].[Time]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dbo].[Weather]"}},"objectType":"Table"}]
+

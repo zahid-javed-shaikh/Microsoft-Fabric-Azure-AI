@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "LH_Logibuddy_DataQuality (automatically generated)",
+    "description": "Materialized Lake View Data Quality Report"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "68a38df3-8f21-b1e1-4cb1-ec997940a447"
+  }
+}

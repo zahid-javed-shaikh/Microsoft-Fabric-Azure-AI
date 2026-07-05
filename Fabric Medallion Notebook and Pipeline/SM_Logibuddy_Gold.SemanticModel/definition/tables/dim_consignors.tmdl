@@ -1,0 +1,123 @@
+table dim_consignors
+	lineageTag: 1eecfcc2-fb51-43f8-900c-3948a4917e93
+	sourceLineageTag: [gold].[dim_consignors]
+
+	column consignor_key
+		dataType: int64
+		formatString: 0
+		lineageTag: af6159a4-0307-41d3-b79f-087aa52d0137
+		sourceLineageTag: consignor_key
+		summarizeBy: none
+		sourceColumn: consignor_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column consignor_name
+		dataType: string
+		lineageTag: 9347ce8a-c1e3-45a5-a5ad-4fc0aaa296e3
+		sourceLineageTag: consignor_name
+		summarizeBy: none
+		sourceColumn: consignor_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column invoice_ref
+		dataType: string
+		lineageTag: 46324272-0a9b-4773-8427-7a70939907fc
+		sourceLineageTag: invoice_ref
+		summarizeBy: none
+		sourceColumn: invoice_ref
+
+		annotation SummarizationSetBy = Automatic
+
+	column address_line1
+		dataType: string
+		lineageTag: a3c0e13d-fd80-4315-9db7-655604a975d0
+		sourceLineageTag: address_line1
+		summarizeBy: none
+		sourceColumn: address_line1
+
+		annotation SummarizationSetBy = Automatic
+
+	column pincode
+		dataType: string
+		lineageTag: 134de119-827c-44b6-b00b-a22120231f19
+		sourceLineageTag: pincode
+		summarizeBy: none
+		sourceColumn: pincode
+
+		annotation SummarizationSetBy = Automatic
+
+	column area
+		dataType: string
+		lineageTag: 3fc76511-b3a3-48fe-8a55-83e9759128f8
+		sourceLineageTag: area
+		summarizeBy: none
+		sourceColumn: area
+
+		annotation SummarizationSetBy = Automatic
+
+	column landmark
+		dataType: string
+		lineageTag: 413405cb-84db-4872-b9f7-62712bacbd9c
+		sourceLineageTag: landmark
+		summarizeBy: none
+		sourceColumn: landmark
+
+		annotation SummarizationSetBy = Automatic
+
+	column city_name
+		dataType: string
+		lineageTag: 31399f05-7c58-437e-9242-b56647000b38
+		sourceLineageTag: city_name
+		summarizeBy: none
+		sourceColumn: city_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column state_name
+		dataType: string
+		lineageTag: 109c268d-309a-4ce0-8074-e0896c82c547
+		sourceLineageTag: state_name
+		summarizeBy: none
+		sourceColumn: state_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column state_code
+		dataType: string
+		lineageTag: c201bea7-5b71-487f-9913-eff58c069a4c
+		sourceLineageTag: state_code
+		summarizeBy: none
+		sourceColumn: state_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column warehouse_id
+		dataType: double
+		lineageTag: 83e69dee-3871-4ab0-b50e-f7284b33c9a6
+		sourceLineageTag: warehouse_id
+		summarizeBy: none
+		sourceColumn: warehouse_id
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 24cfb9a1-fe45-477d-8e8e-650d72d74d3a
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_consignors = entity
+		mode: directLake
+		source
+			entityName: dim_consignors
+			schemaName: gold
+			expressionSource: 'DirectLake - LH_Logibuddy'
+

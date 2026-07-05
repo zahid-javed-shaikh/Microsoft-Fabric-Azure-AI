@@ -1,0 +1,59 @@
+table dim_users
+	lineageTag: 46ac2637-ed99-40f2-93d5-7c848999d6ed
+	sourceLineageTag: [gold].[dim_users]
+
+	column user_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 478b9ddf-1381-4661-b74c-6e4aba009b56
+		sourceLineageTag: user_key
+		summarizeBy: none
+		sourceColumn: user_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column user_name
+		dataType: string
+		lineageTag: 1caf408f-6857-4a0e-8942-fc2e31cd1ed2
+		sourceLineageTag: user_name
+		summarizeBy: none
+		sourceColumn: user_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column email
+		dataType: string
+		lineageTag: a5c80cd0-dad4-4200-a362-f8c1358d4b16
+		sourceLineageTag: email
+		summarizeBy: none
+		sourceColumn: email
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_active
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a84f01e1-e489-4d3f-bd41-153b5d7bd984
+		sourceLineageTag: is_active
+		summarizeBy: none
+		sourceColumn: is_active
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 9f60de69-ed50-4e46-a0f6-827f439c1217
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_users = entity
+		mode: directLake
+		source
+			entityName: dim_users
+			schemaName: gold
+			expressionSource: 'DirectLake - LH_Logibuddy'
+

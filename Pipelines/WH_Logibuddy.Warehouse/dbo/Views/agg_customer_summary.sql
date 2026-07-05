@@ -1,0 +1,2 @@
+-- Auto Generated (Do not modify) 49DFC0C9BA112B4CAA5BEC355DE852FE505CE59EF56F034FF277984281EE8F2C
+CREATE VIEW [dbo].[agg_customer_summary] AS SELECT * FROM [LH_Logibuddy].[gold].[agg_customer_summary]

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "LogisticsDailyIngest"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "dbb8579c-bf56-a06b-4faf-fefea38a47bb"
+  }
+}

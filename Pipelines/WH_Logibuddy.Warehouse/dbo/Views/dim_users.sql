@@ -1,0 +1,2 @@
+-- Auto Generated (Do not modify) DCA88650C28245D5A087B0E25378513778294A9CDC5A5D54BC9522E4458CD9B8
+CREATE VIEW [dbo].[dim_users] AS SELECT * FROM [LH_Logibuddy].[gold].[dim_users]

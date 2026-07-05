@@ -1,0 +1,182 @@
+table agg_dockets_daily
+	lineageTag: f12f175c-88f0-42a9-b264-b517b9c5f7eb
+	sourceLineageTag: [gold].[agg_dockets_daily]
+
+	column created_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: f7719800-774b-4493-ba64-8f1c651fb3b5
+		sourceLineageTag: created_date_key
+		summarizeBy: none
+		sourceColumn: created_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_city
+		dataType: string
+		lineageTag: e9abc548-d586-4ad0-b1d7-4e53a000b5d5
+		sourceLineageTag: delivery_city
+		summarizeBy: none
+		sourceColumn: delivery_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_state
+		dataType: string
+		lineageTag: 1983cb31-fd88-479f-913e-e729abc90d2f
+		sourceLineageTag: delivery_state
+		summarizeBy: none
+		sourceColumn: delivery_state
+
+		annotation SummarizationSetBy = Automatic
+
+	column shipment_status
+		dataType: string
+		lineageTag: 647df862-be04-41e9-9cdb-0120c7adbda5
+		sourceLineageTag: shipment_status
+		summarizeBy: none
+		sourceColumn: shipment_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_type
+		dataType: string
+		lineageTag: 96b3119f-99fc-49fd-9075-873ed13eceea
+		sourceLineageTag: payment_type
+		summarizeBy: none
+		sourceColumn: payment_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_partner_name
+		dataType: string
+		lineageTag: 96e99fdb-2973-406b-9458-1a68a44a0b8e
+		sourceLineageTag: delivery_partner_name
+		summarizeBy: none
+		sourceColumn: delivery_partner_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_dockets
+		dataType: int64
+		formatString: 0
+		lineageTag: c4950630-4a01-47a2-820e-2059c0ffb868
+		sourceLineageTag: total_dockets
+		summarizeBy: sum
+		sourceColumn: total_dockets
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_collectable_value
+		dataType: double
+		lineageTag: e25ca7b2-4ca6-4da4-97b3-aefc03532490
+		sourceLineageTag: total_collectable_value
+		summarizeBy: sum
+		sourceColumn: total_collectable_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_order_value
+		dataType: double
+		lineageTag: 7580fac2-f076-44d5-a8c5-f42fd835e98c
+		sourceLineageTag: total_order_value
+		summarizeBy: sum
+		sourceColumn: total_order_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_actual_weight
+		dataType: double
+		lineageTag: 6e2a2cfe-9123-4252-aa50-fc4e4e650bd0
+		sourceLineageTag: total_actual_weight
+		summarizeBy: sum
+		sourceColumn: total_actual_weight
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_chargeable_weight
+		dataType: double
+		lineageTag: 2b9b8ea9-5998-4fc0-9829-eb089ba1af90
+		sourceLineageTag: total_chargeable_weight
+		summarizeBy: sum
+		sourceColumn: total_chargeable_weight
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_collectable_value
+		dataType: double
+		lineageTag: 5c2b0bf0-c145-479b-ba13-7f1311a76204
+		sourceLineageTag: avg_collectable_value
+		summarizeBy: sum
+		sourceColumn: avg_collectable_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_chargeable_weight
+		dataType: double
+		lineageTag: 423cd8e5-d80c-44cd-bfbf-213407ff703b
+		sourceLineageTag: avg_chargeable_weight
+		summarizeBy: sum
+		sourceColumn: avg_chargeable_weight
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column unique_customers
+		dataType: int64
+		formatString: 0
+		lineageTag: 108d1c47-ed04-42b2-bceb-bb698525e702
+		sourceLineageTag: unique_customers
+		summarizeBy: sum
+		sourceColumn: unique_customers
+
+		annotation SummarizationSetBy = Automatic
+
+	column unique_consignors
+		dataType: int64
+		formatString: 0
+		lineageTag: 2fafbe13-6484-4cc6-844e-cbb8570cafd4
+		sourceLineageTag: unique_consignors
+		summarizeBy: sum
+		sourceColumn: unique_consignors
+
+		annotation SummarizationSetBy = Automatic
+
+	column fragile_dockets
+		dataType: int64
+		formatString: 0
+		lineageTag: eb6c22e1-408a-41c2-8368-5b10fcf31713
+		sourceLineageTag: fragile_dockets
+		summarizeBy: sum
+		sourceColumn: fragile_dockets
+
+		annotation SummarizationSetBy = Automatic
+
+	column self_shipment_dockets
+		dataType: int64
+		formatString: 0
+		lineageTag: 09cb9e3c-67f6-452e-998a-c6b4963b831a
+		sourceLineageTag: self_shipment_dockets
+		summarizeBy: sum
+		sourceColumn: self_shipment_dockets
+
+		annotation SummarizationSetBy = Automatic
+
+	partition agg_dockets_daily = entity
+		mode: directLake
+		source
+			entityName: agg_dockets_daily
+			schemaName: gold
+			expressionSource: 'DirectLake - LH_Logibuddy'
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Dataflow",
+    "displayName": "Get_Daily_Fuel_Prices"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "9e3fd436-6107-b8d7-4aa2-f1d3953b9a5d"
+  }
+}

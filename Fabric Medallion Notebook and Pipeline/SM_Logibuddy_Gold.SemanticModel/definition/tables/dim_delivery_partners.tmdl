@@ -1,0 +1,40 @@
+table dim_delivery_partners
+	lineageTag: 663674d4-9ec9-4441-9ca1-eca3c6c32923
+	sourceLineageTag: [gold].[dim_delivery_partners]
+
+	column delivery_partner_key
+		dataType: int64
+		formatString: 0
+		lineageTag: f7b207da-d083-4fb1-9239-9492846091cf
+		sourceLineageTag: delivery_partner_key
+		summarizeBy: sum
+		sourceColumn: delivery_partner_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column partner_name
+		dataType: string
+		lineageTag: b051d277-1f3e-4572-b5ce-03ac1ebaf4c2
+		sourceLineageTag: partner_name
+		summarizeBy: none
+		sourceColumn: partner_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 559bb20f-84de-4c99-bcef-bfa415fbed0e
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_delivery_partners = entity
+		mode: directLake
+		source
+			entityName: dim_delivery_partners
+			schemaName: gold
+			expressionSource: 'DirectLake - LH_Logibuddy'
+

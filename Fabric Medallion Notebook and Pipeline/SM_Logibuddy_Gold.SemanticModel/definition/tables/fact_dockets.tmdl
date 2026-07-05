@@ -1,0 +1,387 @@
+table fact_dockets
+	lineageTag: 54a4289a-476c-46a0-ad2a-7194cc49ba56
+	sourceLineageTag: [gold].[fact_dockets]
+
+	column docket_key
+		dataType: int64
+		formatString: 0
+		lineageTag: a8dd2956-2124-42b0-9172-eb557af1566a
+		sourceLineageTag: docket_key
+		summarizeBy: sum
+		sourceColumn: docket_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_id
+		dataType: int64
+		formatString: 0
+		lineageTag: c2f9137c-992b-4767-9330-ece68ea1b376
+		sourceLineageTag: order_id
+		summarizeBy: sum
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_key
+		dataType: int64
+		formatString: 0
+		lineageTag: e823a9f1-76c1-4c26-b43b-4db26f4137ca
+		sourceLineageTag: customer_key
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column consignor_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 06add970-caf5-45e4-90d7-7d63be930a20
+		sourceLineageTag: consignor_key
+		summarizeBy: none
+		sourceColumn: consignor_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column user_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 50040be3-504f-44e1-9065-30382f30cdd7
+		sourceLineageTag: user_key
+		summarizeBy: none
+		sourceColumn: user_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 8ca5ab06-f0ba-4339-a796-8352fae4c6aa
+		sourceLineageTag: created_date_key
+		summarizeBy: none
+		sourceColumn: created_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column invoice_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 02dc42f3-e0a0-43ac-8b20-fae17a9c24fc
+		sourceLineageTag: invoice_date_key
+		summarizeBy: sum
+		sourceColumn: invoice_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column edd_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 5ecf2670-8247-48ea-8b20-a8b8470295e6
+		sourceLineageTag: edd_date_key
+		summarizeBy: sum
+		sourceColumn: edd_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column docket_number
+		dataType: string
+		lineageTag: 564c593b-d611-426b-b756-a2116767315c
+		sourceLineageTag: docket_number
+		summarizeBy: none
+		sourceColumn: docket_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column awb_number
+		dataType: string
+		lineageTag: 3694553e-0901-4713-811c-91f098453f62
+		sourceLineageTag: awb_number
+		summarizeBy: none
+		sourceColumn: awb_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column invoice_number
+		dataType: string
+		lineageTag: ece44a03-0b7f-45cd-acbd-bf6b758cf181
+		sourceLineageTag: invoice_number
+		summarizeBy: none
+		sourceColumn: invoice_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column vendor_name
+		dataType: string
+		lineageTag: bbe5cf7b-fe69-41e6-bf32-23f01618adb8
+		sourceLineageTag: vendor_name
+		summarizeBy: none
+		sourceColumn: vendor_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column shipment_status
+		dataType: string
+		lineageTag: 45e59f51-0fd9-444e-a8a1-17d92257d1a1
+		sourceLineageTag: shipment_status
+		summarizeBy: none
+		sourceColumn: shipment_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_type
+		dataType: string
+		lineageTag: 231e3026-78b1-4524-aac1-d83daef83454
+		sourceLineageTag: payment_type
+		summarizeBy: none
+		sourceColumn: payment_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column transport_mode
+		dataType: int64
+		formatString: 0
+		lineageTag: 98fe4c33-ca9c-4946-83b6-68c8fe606d91
+		sourceLineageTag: transport_mode
+		summarizeBy: sum
+		sourceColumn: transport_mode
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_partner_name
+		dataType: string
+		lineageTag: 1d79b08b-c172-4078-9f71-f83017d25add
+		sourceLineageTag: delivery_partner_name
+		summarizeBy: none
+		sourceColumn: delivery_partner_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column consignee_name
+		dataType: string
+		lineageTag: 7ade39e5-3801-45e8-ba17-75edef25c577
+		sourceLineageTag: consignee_name
+		summarizeBy: none
+		sourceColumn: consignee_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_city
+		dataType: string
+		lineageTag: e8c2cf93-b406-43b2-9084-4cfe2cbb44e1
+		sourceLineageTag: delivery_city
+		summarizeBy: none
+		sourceColumn: delivery_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_state
+		dataType: string
+		lineageTag: 50204827-065f-40a3-bf6a-8a4619c5f1f6
+		sourceLineageTag: delivery_state
+		summarizeBy: none
+		sourceColumn: delivery_state
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_pincode
+		dataType: string
+		lineageTag: 3306cc67-a79e-46d4-a0d8-8e39b8a4e55d
+		sourceLineageTag: delivery_pincode
+		summarizeBy: none
+		sourceColumn: delivery_pincode
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_description
+		dataType: string
+		lineageTag: db5a2a59-43d6-4aa4-bfbd-7972f24b332a
+		sourceLineageTag: item_description
+		summarizeBy: none
+		sourceColumn: item_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_fragile
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 89eeaf79-d79c-49b1-ae5a-9ac11f88c363
+		sourceLineageTag: is_fragile
+		summarizeBy: none
+		sourceColumn: is_fragile
+
+		annotation SummarizationSetBy = Automatic
+
+	column self_shipment
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 7c6dcd07-bef3-411e-9deb-9fdef8229f76
+		sourceLineageTag: self_shipment
+		summarizeBy: none
+		sourceColumn: self_shipment
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_number
+		dataType: string
+		lineageTag: f7b0558e-022b-4d96-a685-0fa8ff5d461d
+		sourceLineageTag: order_number
+		summarizeBy: none
+		sourceColumn: order_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_partial_support
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ac16674c-7b1a-4d21-b28b-70776f5bb0b4
+		sourceLineageTag: is_partial_support
+		summarizeBy: none
+		sourceColumn: is_partial_support
+
+		annotation SummarizationSetBy = Automatic
+
+	column collectable_value
+		dataType: decimal
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: 723d99e0-f965-40e4-9736-a3e9b27b196d
+		sourceLineageTag: collectable_value
+		summarizeBy: sum
+		sourceColumn: collectable_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column actual_weight_kg
+		dataType: decimal
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: 647608cb-df8d-4693-ab2e-0cb304bc347d
+		sourceLineageTag: actual_weight_kg
+		summarizeBy: sum
+		sourceColumn: actual_weight_kg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column adjusted_weight_kg
+		dataType: decimal
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: 4f1add3b-f611-4cc9-ab56-51835a7b098a
+		sourceLineageTag: adjusted_weight_kg
+		summarizeBy: sum
+		sourceColumn: adjusted_weight_kg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column volumetric_weight_kg
+		dataType: decimal
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: f8e28338-5f86-4db2-b742-e5f5b72b73ae
+		sourceLineageTag: volumetric_weight_kg
+		summarizeBy: sum
+		sourceColumn: volumetric_weight_kg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column order_total_value
+		dataType: decimal
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: 32ff7ebe-b46e-43d4-9d4f-c2bddf833409
+		sourceLineageTag: order_total_value
+		summarizeBy: sum
+		sourceColumn: order_total_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column length_cm
+		dataType: decimal
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: 38bb64b2-1a2d-48e8-b76d-6cf9c138b39a
+		sourceLineageTag: length_cm
+		summarizeBy: sum
+		sourceColumn: length_cm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column breadth_cm
+		dataType: decimal
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: 65e47163-1ef2-49d1-b7f4-81a9982fd748
+		sourceLineageTag: breadth_cm
+		summarizeBy: sum
+		sourceColumn: breadth_cm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column height_cm
+		dataType: decimal
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: 93ab9464-5e93-4544-8dad-1344f40055a5
+		sourceLineageTag: height_cm
+		summarizeBy: sum
+		sourceColumn: height_cm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column dim_weight_kg
+		dataType: double
+		lineageTag: 0501a719-8054-40ca-9713-ab3625481899
+		sourceLineageTag: dim_weight_kg
+		summarizeBy: sum
+		sourceColumn: dim_weight_kg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column chargeable_weight_kg
+		dataType: decimal
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: aa17da86-0b92-41b1-82a1-5ef05d883aab
+		sourceLineageTag: chargeable_weight_kg
+		summarizeBy: sum
+		sourceColumn: chargeable_weight_kg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: ac48cf1f-5c28-428e-9569-d5f5960df03d
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4f862b37-e817-44c6-a51d-49a211831e63
+		sourceLineageTag: updated_at
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_dockets = entity
+		mode: directLake
+		source
+			entityName: fact_dockets
+			schemaName: gold
+			expressionSource: 'DirectLake - LH_Logibuddy'
+

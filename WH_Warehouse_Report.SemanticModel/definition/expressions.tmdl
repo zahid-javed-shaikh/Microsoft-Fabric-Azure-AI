@@ -1,0 +1,11 @@
+expression 'DirectLake - WH_Warehouse' =
+		let
+		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/2150bb83-47b4-4fde-a244-6be5b7e62908/98695ce7-e8b7-4e91-8cba-cf915cfdf901", [HierarchicalNavigation=true])
+		in
+		    Source
+	lineageTag: 1954ed2d-fb69-4d15-8355-9eea330d281a
+
+	annotation PBI_IncludeFutureArtifacts = False
+
+	annotation PBI_RemovedChildren = [{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dbo].[stg_Customer]"}},"objectType":"Table"}]
+

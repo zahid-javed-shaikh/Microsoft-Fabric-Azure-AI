@@ -1,0 +1,250 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "4f466a59-1b6b-8ed5-4059-9b8d402d63ac",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Act_Bronze_Ingest",
+        "dependsOn": []
+      },
+      {
+        "type": "WebActivity",
+        "typeProperties": {
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "title": "❌ Logibuddy Pipeline Failed",
+            "message": "Activity FAILED: Act_Bronze_Ingest (MySQL → Bronze ingestion). Pipeline: PL_Logibuddy_Master. Please check Fabric pipeline run history for details.",
+            "pipeline": "PL_Logibuddy_Master",
+            "activity": "Act_Bronze_Ingest",
+            "timestamp": "@utcNow()"
+          }
+        },
+        "policy": {
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Act_Fail_Bronze",
+        "dependsOn": [
+          {
+            "activity": "Act_Bronze_Ingest",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "62062dcf-7ff7-9e50-4092-ee8dd5f7f805",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Act_Silver_MLV_Refresh",
+        "dependsOn": [
+          {
+            "activity": "Act_Bronze_Ingest",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "WebActivity",
+        "typeProperties": {
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "title": "❌ Logibuddy Pipeline Failed",
+            "message": "Activity FAILED: Act_Silver_MLV_Refresh (Silver MLV refresh). Pipeline: PL_Logibuddy_Master. Please check Fabric pipeline run history for details.",
+            "pipeline": "PL_Logibuddy_Master",
+            "activity": "Act_Silver_MLV_Refresh",
+            "timestamp": "@utcNow()"
+          }
+        },
+        "policy": {
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Act_Fail_Silver",
+        "dependsOn": [
+          {
+            "activity": "Act_Silver_MLV_Refresh",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "7ddf2be7-7356-9602-4140-e7454fb3a88b",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Act_Gold_Land_To_Warehouse",
+        "dependsOn": [
+          {
+            "activity": "Act_Silver_MLV_Refresh",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "WebActivity",
+        "typeProperties": {
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "title": "❌ Logibuddy Pipeline Failed",
+            "message": "Activity FAILED: Act_Gold_Land_To_Warehouse (Gold → Warehouse load). Pipeline: PL_Logibuddy_Master. Please check Fabric pipeline run history for details.",
+            "pipeline": "PL_Logibuddy_Master",
+            "activity": "Act_Gold_Land_To_Warehouse",
+            "timestamp": "@utcNow()"
+          }
+        },
+        "policy": {
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Act_Fail_Gold",
+        "dependsOn": [
+          {
+            "activity": "Act_Gold_Land_To_Warehouse",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "WebActivity",
+        "typeProperties": {
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "type": "full",
+            "commitMode": "transactional",
+            "maxParallelism": 2,
+            "retryCount": 1
+          }
+        },
+        "policy": {
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Act_Refresh_Semantic_Model",
+        "dependsOn": [
+          {
+            "activity": "Act_Gold_Land_To_Warehouse",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "WebActivity",
+        "typeProperties": {
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "title": "❌ Logibuddy Pipeline Failed",
+            "message": "Activity FAILED: Act_Refresh_Semantic_Model (SM_Logibuddy_Gold refresh). Pipeline: PL_Logibuddy_Master. Please check Fabric pipeline run history for details.",
+            "pipeline": "PL_Logibuddy_Master",
+            "activity": "Act_Refresh_Semantic_Model",
+            "timestamp": "@utcNow()"
+          }
+        },
+        "policy": {
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Act_Fail_SM_Refresh",
+        "dependsOn": [
+          {
+            "activity": "Act_Refresh_Semantic_Model",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "WebActivity",
+        "typeProperties": {
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "title": "✅ Logibuddy Pipeline Completed Successfully",
+            "message": "All activities completed. Bronze ingested, Silver/Gold MLVs refreshed, Warehouse loaded, Semantic Model SM_Logibuddy_Gold refreshed. Pipeline: PL_Logibuddy_Master.",
+            "pipeline": "PL_Logibuddy_Master",
+            "activity": "All",
+            "timestamp": "@utcNow()"
+          }
+        },
+        "policy": {
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Act_Success_Notification",
+        "dependsOn": [
+          {
+            "activity": "Act_Refresh_Semantic_Model",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

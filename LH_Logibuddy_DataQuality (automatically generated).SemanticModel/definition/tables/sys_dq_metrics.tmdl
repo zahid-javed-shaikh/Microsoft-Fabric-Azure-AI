@@ -1,0 +1,519 @@
+table sys_dq_metrics
+
+	measure TotalRows =
+			SUMX (
+				VALUES ( sys_dq_metrics[MLVID] ),
+				VAR CurrentMLV = sys_dq_metrics[MLVID]
+			
+				-- Last FR timestamp (if any)
+				VAR LastFRTime =
+					CALCULATE (
+						MAX ( sys_dq_metrics[RefreshTimestamp] ),
+						FILTER (
+							sys_dq_metrics,
+							sys_dq_metrics[MLVID] = CurrentMLV &&
+							sys_dq_metrics[RefreshPolicy] = "FullRefresh"
+						)
+					)
+			
+				RETURN
+					CALCULATE (
+						SUM ( sys_dq_metrics[TotalRowsProcessed] ) +
+						SUM ( sys_dq_metrics[TotalRowsDropped] ),
+						FILTER (
+							ALL ( sys_dq_metrics ),
+							sys_dq_metrics[MLVID] = CurrentMLV &&
+							(
+								ISBLANK(LastFRTime) || sys_dq_metrics[RefreshTimestamp] >= LastFRTime
+							)
+						)
+					)
+			)
+		formatString: 0
+
+	measure DroppedPercentage =
+			VAR LastFRTable =
+				ADDCOLUMNS (
+					VALUES ( sys_dq_metrics[MLVID] ),
+					"LastFRTime",
+						CALCULATE (
+							MAX ( sys_dq_metrics[RefreshTimestamp] ),
+							FILTER (
+								sys_dq_metrics,
+								sys_dq_metrics[MLVID] = EARLIER ( sys_dq_metrics[MLVID] ) &&
+								sys_dq_metrics[RefreshPolicy] = "FullRefresh"
+							)
+						)
+				)
+			VAR TotalDropped =
+				SUMX (
+					LastFRTable,
+					VAR CurrentMLV = [MLVID]
+					VAR LastFRTime = [LastFRTime]
+					RETURN
+						CALCULATE (
+							SUM ( sys_dq_metrics[TotalRowsDropped] ),
+							FILTER (
+								sys_dq_metrics,
+								sys_dq_metrics[MLVID] = CurrentMLV &&
+								(
+									ISBLANK(LastFRTime) || sys_dq_metrics[RefreshTimestamp] >= LastFRTime
+								)
+							)
+						)
+				)
+			VAR TotalProcessed =
+				SUMX (
+					LastFRTable,
+					VAR CurrentMLV = [MLVID]
+					VAR LastFRTime = [LastFRTime]
+					RETURN
+						CALCULATE (
+							SUM ( sys_dq_metrics[TotalRowsProcessed] ),
+							FILTER (
+								sys_dq_metrics,
+								sys_dq_metrics[MLVID] = CurrentMLV &&
+								(
+									ISBLANK(LastFRTime) || sys_dq_metrics[RefreshTimestamp] >= LastFRTime
+								)
+							)
+						)
+				)
+			RETURN
+				DIVIDE ( TotalDropped, TotalProcessed, 0 )
+		formatString: 0.00%;-0.00%;0.00%
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure WrittenPercentage =
+			
+			VAR LastFRTable =
+				ADDCOLUMNS (
+					VALUES ( sys_dq_metrics[MLVID] ),
+					"LastFRTime",
+						CALCULATE (
+							MAX ( sys_dq_metrics[RefreshTimestamp] ),
+							FILTER (
+								sys_dq_metrics,
+								sys_dq_metrics[MLVID] = EARLIER ( sys_dq_metrics[MLVID] ) &&
+								sys_dq_metrics[RefreshPolicy] = "FullRefresh"
+							)
+						),
+					"HasIR",
+						CALCULATE (
+							COUNTROWS ( sys_dq_metrics ),
+							FILTER (
+								sys_dq_metrics,
+								sys_dq_metrics[MLVID] = EARLIER ( sys_dq_metrics[MLVID] ) &&
+								sys_dq_metrics[RefreshPolicy] = "IncrementalRefresh"
+							)
+						)
+				)
+			VAR TotalDropped =
+				SUMX (
+					LastFRTable,
+					VAR CurrentMLV = [MLVID]
+					VAR LastFRTime = [LastFRTime]
+					VAR HasIR = [HasIR]
+					VAR DroppedWithFR =
+						CALCULATE (
+							SUM ( sys_dq_metrics[TotalRowsDropped] ),
+							FILTER (
+								sys_dq_metrics,
+								sys_dq_metrics[MLVID] = CurrentMLV &&
+								sys_dq_metrics[RefreshTimestamp] >= LastFRTime
+							)
+						)
+					VAR DroppedIRonly =
+						CALCULATE (
+							SUM ( sys_dq_metrics[TotalRowsDropped] ),
+							FILTER (
+								sys_dq_metrics,
+								sys_dq_metrics[MLVID] = CurrentMLV &&
+								sys_dq_metrics[RefreshPolicy] = "IncrementalRefresh"
+							)
+						)
+					RETURN
+						IF (
+							NOT ISBLANK ( LastFRTime ),
+							DroppedWithFR,                   -- Case 1: FR exists
+							IF ( HasIR > 0, DroppedIRonly, 0 ) -- Case 2: IR only, else 0
+						)
+				)
+			VAR TotalProcessed =
+				SUMX (
+					LastFRTable,
+					VAR CurrentMLV = [MLVID]
+					VAR LastFRTime = [LastFRTime]
+					VAR HasIR = [HasIR]
+					VAR ProcessedWithFR =
+						CALCULATE (
+							SUM ( sys_dq_metrics[TotalRowsProcessed] ),
+							FILTER (
+								sys_dq_metrics,
+								sys_dq_metrics[MLVID] = CurrentMLV &&
+								sys_dq_metrics[RefreshTimestamp] >= LastFRTime
+							)
+						)
+					VAR ProcessedIRonly =
+						CALCULATE (
+							SUM ( sys_dq_metrics[TotalRowsProcessed] ),
+							FILTER (
+								sys_dq_metrics,
+								sys_dq_metrics[MLVID] = CurrentMLV &&
+								sys_dq_metrics[RefreshPolicy] = "IncrementalRefresh"
+							)
+						)
+					RETURN
+						IF (
+							NOT ISBLANK ( LastFRTime ),
+							ProcessedWithFR,                   -- Case 1: FR exists
+							IF ( HasIR > 0, ProcessedIRonly, 0 ) -- Case 2: IR only, else 0
+						)
+				)
+			VAR TotalWritten = TotalProcessed - TotalDropped
+			RETURN
+				DIVIDE ( TotalWritten, TotalProcessed, 0 )
+		formatString: 0.00%;-0.00%;0.00%
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Rows Dropped (Last 1 week)' =
+			SUMX (
+				VALUES ( sys_dq_metrics[MLVID] ),
+				VAR CurrentMLV = sys_dq_metrics[MLVID]
+				VAR LastFRTime =
+					CALCULATE (
+						MAX ( sys_dq_metrics[RefreshTimestamp] ),
+						FILTER (
+							sys_dq_metrics,
+							sys_dq_metrics[MLVID] = CurrentMLV &&
+							sys_dq_metrics[RefreshPolicy] = "FullRefresh" &&
+							sys_dq_metrics[RefreshDate] > TODAY() - 7
+						)
+					)
+				RETURN
+					CALCULATE (
+						SUM ( sys_dq_metrics[TotalRowsDropped] ),
+						FILTER (
+							sys_dq_metrics,
+							sys_dq_metrics[MLVID] = CurrentMLV &&
+							(
+								-- Case 1: FR exists -> FR + IR after FR (but within 7 days)
+								( NOT ISBLANK ( LastFRTime ) &&
+								  sys_dq_metrics[RefreshTimestamp] >= LastFRTime
+								)
+								||
+								-- Case 2: No FR -> only IRs (within 7 days)
+								( ISBLANK ( LastFRTime ) &&
+								  sys_dq_metrics[RefreshDate] > TODAY() - 7
+								)
+							)
+						)
+					)
+			)
+		formatString: 0
+
+	measure 'Total Rows Processed (Last 1 week)' =
+			SUMX (
+				VALUES ( sys_dq_metrics[MLVID] ),
+				VAR CurrentMLV = sys_dq_metrics[MLVID]
+				VAR LastFRTime =
+					CALCULATE (
+						MAX ( sys_dq_metrics[RefreshTimestamp] ),
+						FILTER (
+							sys_dq_metrics,
+							sys_dq_metrics[MLVID] = CurrentMLV &&
+							sys_dq_metrics[RefreshPolicy] = "FullRefresh" &&
+							sys_dq_metrics[RefreshDate] > TODAY() - 7
+						)
+					)
+				RETURN
+					CALCULATE (
+						SUM ( sys_dq_metrics[TotalRowsProcessed] ),
+						FILTER (
+							sys_dq_metrics,
+							sys_dq_metrics[MLVID] = CurrentMLV &&
+							(
+								-- Case 1: FR exists -> FR + IR after FR (within 7 days)
+								( NOT ISBLANK ( LastFRTime ) &&
+								  sys_dq_metrics[RefreshTimestamp] >= LastFRTime
+								)
+								||
+								-- Case 2: No FR -> only IRs (within 7 days)
+								( ISBLANK ( LastFRTime ) &&
+								  sys_dq_metrics[RefreshDate] > TODAY() - 7
+								)
+							)
+						)
+					)
+			)
+		formatString: 0
+
+	measure 'Total Violations (Last 1 week)' =
+			SUMX (
+				VALUES ( sys_dq_metrics[MLVID] ),
+				VAR CurrentMLV = sys_dq_metrics[MLVID]
+				VAR LastFRTime =
+					CALCULATE (
+						MAX ( sys_dq_metrics[RefreshTimestamp] ),
+						FILTER (
+							sys_dq_metrics,
+							sys_dq_metrics[MLVID] = CurrentMLV &&
+							sys_dq_metrics[RefreshPolicy] = "FullRefresh" &&
+							sys_dq_metrics[RefreshDate] > TODAY() - 7
+						)
+					)
+				RETURN
+					CALCULATE (
+						SUM ( ConstraintTable[ViolationCount] ),
+						FILTER (
+							ALL ( sys_dq_metrics ),
+							sys_dq_metrics[MLVID] = CurrentMLV &&
+							(
+								-- Case 1: FR exists -> violations from FR onwards (last 7 days)
+								( NOT ISBLANK ( LastFRTime ) &&
+								  sys_dq_metrics[RefreshTimestamp] >= LastFRTime
+								)
+								||
+								-- Case 2: No FR -> only IR violations (last 7 days)
+								( ISBLANK ( LastFRTime ) &&
+								  sys_dq_metrics[RefreshDate] > TODAY() - 7
+								)
+							)
+						)
+					)
+			)
+		formatString: 0
+
+	measure TotalRowsWritten =
+			SUMX (
+				VALUES ( sys_dq_metrics[MLVID] ),
+				VAR CurrentMLV = sys_dq_metrics[MLVID]
+			
+				-- Last FR timestamp (if any)
+				VAR LastFRTime =
+					CALCULATE (
+						MAX ( sys_dq_metrics[RefreshTimestamp] ),
+						FILTER (
+							sys_dq_metrics,
+							sys_dq_metrics[MLVID] = CurrentMLV &&
+							sys_dq_metrics[RefreshPolicy] = "FullRefresh"
+						)
+					)
+			
+				RETURN
+					CALCULATE (
+						COALESCE ( SUM ( sys_dq_metrics[TotalRowsProcessed] ), 0 ) -
+						COALESCE ( SUM ( sys_dq_metrics[TotalRowsDropped] ), 0 ),
+						FILTER (
+							ALL ( sys_dq_metrics ),
+							sys_dq_metrics[MLVID] = CurrentMLV &&
+							(
+								ISBLANK(LastFRTime) || sys_dq_metrics[RefreshTimestamp] >= LastFRTime
+							)
+						)
+					)
+			)
+		formatString: 0
+
+	measure 'Total Rows Written (Last 1 week)' =
+			SUMX (
+				VALUES ( sys_dq_metrics[MLVID] ),
+				VAR CurrentMLV = sys_dq_metrics[MLVID]
+				VAR LastFRTime =
+					CALCULATE (
+						MAX ( sys_dq_metrics[RefreshTimestamp] ),
+						FILTER (
+							sys_dq_metrics,
+							sys_dq_metrics[MLVID] = CurrentMLV &&
+							sys_dq_metrics[RefreshPolicy] = "FullRefresh" &&
+							sys_dq_metrics[RefreshDate] > TODAY() - 7
+						)
+					)
+				RETURN
+					CALCULATE (
+						SUM ( sys_dq_metrics[TotalRowsProcessed] ) -
+						SUM ( sys_dq_metrics[TotalRowsDropped] ),
+						FILTER (
+							sys_dq_metrics,
+							sys_dq_metrics[MLVID] = CurrentMLV &&
+							(
+								-- Case 1: FR exists -> FR + IR after FR (within 7 days)
+								( NOT ISBLANK ( LastFRTime ) &&
+								  sys_dq_metrics[RefreshTimestamp] >= LastFRTime
+								)
+								||
+								-- Case 2: No FR -> only IRs (within 7 days)
+								( ISBLANK ( LastFRTime ) &&
+								  sys_dq_metrics[RefreshDate] > TODAY() - 7
+								)
+							)
+						)
+					)
+			)
+		formatString: 0
+
+	measure TotalViolationsFR =
+			SUMX (
+				VALUES ( sys_dq_metrics[MLVID] ),
+				VAR CurrentMLV = sys_dq_metrics[MLVID]
+			
+				-- Last Full Refresh for this MLV (within current filter context)
+				VAR LastFRTime =
+					CALCULATE (
+						MAX ( sys_dq_metrics[RefreshTimestamp] ),
+						FILTER (
+							sys_dq_metrics,
+							sys_dq_metrics[MLVID] = CurrentMLV
+								&& sys_dq_metrics[RefreshPolicy] = "FullRefresh"
+						)
+					)
+			
+				-- Sum since FR (exactly your original logic)
+				VAR ViolationsSinceFR =
+					CALCULATE (
+						SUM ( sys_dq_metrics[TotalViolations] ),
+						FILTER (
+							sys_dq_metrics,
+							sys_dq_metrics[MLVID] = CurrentMLV
+								&& sys_dq_metrics[RefreshTimestamp] >= LastFRTime
+						)
+					)
+			
+				-- Fallback if no FR: take IRs only (still within the current report filter context)
+				VAR ViolationsIRonly =
+					CALCULATE (
+						SUM ( sys_dq_metrics[TotalViolations] ),
+						FILTER (
+							sys_dq_metrics,
+							sys_dq_metrics[MLVID] = CurrentMLV
+								&& sys_dq_metrics[RefreshPolicy] = "IncrementalRefresh"
+						)
+					)
+			
+				RETURN
+					IF (
+						NOT ISBLANK ( LastFRTime ),
+						ViolationsSinceFR,                -- FR exists -> same as original
+						COALESCE ( ViolationsIRonly, 0 )  -- No FR -> IRs only; if none -> 0
+					)
+			)
+		formatString: 0
+
+	column Namespace
+		dataType: string
+		sourceProviderType: varchar(8000)
+		summarizeBy: none
+		sourceColumn: Namespace
+
+		annotation SummarizationSetBy = Automatic
+
+	column MLVName
+		dataType: string
+		sourceProviderType: varchar(8000)
+		summarizeBy: none
+		sourceColumn: MLVName
+
+		annotation SummarizationSetBy = Automatic
+
+	column MLVID
+		dataType: string
+		sourceProviderType: varchar(8000)
+		summarizeBy: none
+		sourceColumn: MLVID
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefreshPolicy
+		dataType: string
+		sourceProviderType: varchar(8000)
+		summarizeBy: none
+		sourceColumn: RefreshPolicy
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefreshDate
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: varchar(8000)
+		summarizeBy: none
+		sourceColumn: RefreshDate
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column RefreshTimestamp
+		dataType: string
+		sourceProviderType: varchar(8000)
+		summarizeBy: none
+		sourceColumn: RefreshTimestamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column Message
+		dataType: string
+		sourceProviderType: varchar(8000)
+		summarizeBy: none
+		sourceColumn: Message
+
+		annotation SummarizationSetBy = Automatic
+
+	column TotalRowsProcessed
+		dataType: int64
+		formatString: 0
+		sourceProviderType: varchar(8000)
+		summarizeBy: none
+		sourceColumn: TotalRowsProcessed
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+	column TotalRowsDropped
+		dataType: int64
+		formatString: 0
+		sourceProviderType: varchar(8000)
+		summarizeBy: none
+		sourceColumn: TotalRowsDropped
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+	column TotalViolations
+		dataType: int64
+		formatString: 0
+		sourceProviderType: varchar(8000)
+		summarizeBy: sum
+		sourceColumn: TotalViolations
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column ViolationsPerConstraint
+		dataType: string
+		sourceProviderType: varchar(8000)
+		summarizeBy: none
+		sourceColumn: ViolationsPerConstraint
+
+		annotation SummarizationSetBy = Automatic
+
+	partition sys_dq_metrics = m
+		mode: directQuery
+		source =
+				let
+				    Source = Sql.Database("6wxoapkvyxfezogid7hv2ln2ii-qo5vainui7pe7isenps3pzrjba.datawarehouse.fabric.microsoft.com", "LH_Logibuddy"),
+				    dbo_sys_dq_metrics = Source{[Schema="dbo",Item="sys_dq_metrics"]}[Data],
+				    #"Renamed Columns" = Table.RenameColumns(dbo_sys_dq_metrics,{ {"RefreshDate", "RefreshDate"} })
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
