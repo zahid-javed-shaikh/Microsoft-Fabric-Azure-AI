@@ -33,9 +33,15 @@
 
 # ── Connection parameters ──────────────────────────────────────
 # ── Connection parameters ──────────────────────────────────────
-jdbc_url    = "jdbc:mysql://auth-db1734.hstgr.io:3306/u538195328_b2c_zahid"
-db_user     = "u538195328_b2c_user"
-db_password = "a#DE!b0oj7L2"
+# ── Connection parameters ──────────────────────────────────────
+# Pulled at runtime from a Fabric Variable Library — no credentials
+# are stored in this notebook, so it's safe to share/version-control.
+
+vl = notebookutils.variableLibrary.getLibrary("MySqlConnectionVars")
+
+jdbc_url    = vl.mysql_jdbc_url
+db_user     = vl.mysql_db_user
+db_password = vl.mysql_db_password
 driver      = "com.mysql.cj.jdbc.Driver"
 
 # ── Step 1: Discover tables using dbtable + subquery syntax ─────
