@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "VariableLibrary",
+    "displayName": "MySqlConnectionVars"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "f8d282b7-dd78-b17e-4109-eaf0c3d7d671"
+  }
+}

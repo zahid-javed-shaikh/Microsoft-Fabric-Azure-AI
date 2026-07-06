@@ -1,0 +1,23 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/variableLibrary/definition/variables/1.0.0/schema.json",
+  "variables": [
+    {
+      "name": "mysql_jdbc_url",
+      "note": "",
+      "type": "String",
+      "value": "jdbc:mysql://auth-db1734.hstgr.io:3306/u538195328_b2c_zahid"
+    },
+    {
+      "name": "mysql_db_user",
+      "note": "",
+      "type": "String",
+      "value": "u538195328_b2c_user"
+    },
+    {
+      "name": "mysql_db_password",
+      "note": "",
+      "type": "String",
+      "value": "a#DE!b0oj7L2"
+    }
+  ]
+}
